@@ -35,11 +35,10 @@
 
 - (void)setMoviePlayerInIndexWithURL:(NSURL *)movieURL localMovieName:(NSString *)localMovieName
 {
-    // 初始化AVPlayer
     self.AVPlayer = [[AVPlayerViewController alloc]init];
     // 多分屏功能取消
     self.AVPlayer.allowsPictureInPicturePlayback = NO;
-    // 设置是否显示媒体播放组件
+    // 是否显示媒体播放组件
     self.AVPlayer.showsPlaybackControls = false;
     AVPlayerItem *item;
     if (movieURL) {
@@ -55,23 +54,19 @@
     // layer
     AVPlayerLayer *layer = [AVPlayerLayer playerLayerWithPlayer:player];
     [layer setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
-    // 设置填充模式
-    //    layer.videoGravity = AVLayerVideoGravityResizeAspect; // 保持视频的纵横比
+    // 填充模式
+//    layer.videoGravity = AVLayerVideoGravityResizeAspect; // 保持视频的纵横比
     layer.videoGravity = AVLayerVideoGravityResize; // 不保持视频的纵横比, 填充整个屏幕
-    
-    // 设置AVPlayerViewController内部的AVPlayer为刚创建的AVPlayer
     self.AVPlayer.player = player;
-    
     [self.view.layer addSublayer:layer];
-    // 开始播放
     [self.AVPlayer.player play];
     
-    // 这里设置的是重复播放。
+    // 重复播放。
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(playDidEnd:)
                                                  name:AVPlayerItemDidPlayToEndTimeNotification
                                                object:item];
-//    [self createLoginBtn]; // 3秒后自动就停止
+//    [self createLoginBtn]; // 3秒后自动就停止(这里自行选择)
     [self createLoginBtn1]; // 不点的话 就一直播放视频
     
 }
@@ -98,15 +93,14 @@
     [self createLoginBtn];
 }
 
-// 播放完成的代理
+// 播放完成代理
 - (void)playDidEnd:(NSNotification *)Notification{
     // 播放完成后。设置播放进度为0 。 重新播放
     [self.AVPlayer.player seekToTime:CMTimeMake(0, 1)];
-    // 开始播放
     [self.AVPlayer.player play];
 }
 
-// 调这个 用户不用点击, 几秒后自动进入程序
+// 用户不用点击, 几秒后自动进入程序
 - (void)createLoginBtn
 {
     NSLog(@"创建按钮");
@@ -122,7 +116,7 @@
     [self.view addSubview:_enterMainButton];
     [_enterMainButton addTarget:self action:@selector(enterMainAction) forControlEvents:UIControlEventTouchUpInside];
 }
-// 右上角的倒计时
+// 倒计时
 - (void)DaoJiShi{
     if (_timeCount > 0) {
         _timeCount -= 1;
@@ -135,7 +129,7 @@
     }
 }
 
-// 调这个 不会自动停止, 需要用户点击按钮才能进入应用
+// 不会自动停止, 需要用户点击按钮才能进入应用
 - (void)createLoginBtn1{ // 这里的时间是3秒后视频页面出现按钮
     _timer1 = [NSTimer scheduledTimerWithTimeInterval:3.0 target:self selector:@selector(showClickBtn) userInfo:nil repeats:YES];
 }
@@ -149,8 +143,8 @@
     [btn setTitle:@"进入应用" forState:UIControlStateNormal];
     [self.view addSubview:btn];
     [btn addTarget:self action:@selector(enterMainAction) forControlEvents:UIControlEventTouchUpInside];
-    [_timer1 invalidate]; // 停止timer
-    _timer1 = nil;
+    [_timer1 invalidate];
+    _timer1 = nil;// timer置为nil
 
 }
 // 按钮响应时间

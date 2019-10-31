@@ -20,20 +20,20 @@
     
     // 这是图片还有视频的url链接
     NSString *getUrlStr = @"http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4"; // 网络视频
-    //    NSString *getUrlStr = @"http://fimg.yucuizhubao.com/img/start.png"; // 网络图片
+//    NSString *getUrlStr = @"http://fimg.yucuizhubao.com/img/start.png"; // 网络图片
     
     NSLog(@"后缀是--%@", [getUrlStr substringFromIndex:[getUrlStr length] - 4]);
     ZHMoviePlayerController *ZHVC = [[ZHMoviePlayerController alloc]init];
     
     if ([[getUrlStr substringFromIndex:[getUrlStr length] - 4] isEqualToString:@".mp4"] ) {
         NSLog(@"加载的是视频");
-        //        [ZHVC setMoviePlayerInIndexWithURL:[NSURL URLWithString:getUrlStr] localMovieName:nil]; // 加载网络url视频
+//        [ZHVC setMoviePlayerInIndexWithURL:[NSURL URLWithString:getUrlStr] localMovieName:nil]; // 加载网络url视频
         [ZHVC setMoviePlayerInIndexWithURL:nil localMovieName:@"movie.mp4"]; // 加载本地视频
         self.window.rootViewController = ZHVC;
         
     }else if ([[getUrlStr substringFromIndex:[getUrlStr length] - 4] isEqualToString:@".png"]){
         NSLog(@"加载的是图片");
-        //        [ZHVC setImageInIndexWithURL:[NSURL URLWithString:getUrlStr] localImageName:nil timeCount:4];// 加载网络图片
+//        [ZHVC setImageInIndexWithURL:[NSURL URLWithString:getUrlStr] localImageName:nil timeCount:4];// 加载网络图片
         [ZHVC setImageInIndexWithURL:nil localImageName:@"bj.png" timeCount:4]; // 加载本地图片
         self.window.rootViewController = ZHVC;
     }
