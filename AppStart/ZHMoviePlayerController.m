@@ -16,7 +16,6 @@
 
 @interface ZHMoviePlayerController ()
 
-// 播放器ViewController
 @property (nonatomic, strong)AVPlayerViewController *AVPlayer;
 @property (nonatomic, strong)UIButton *enterMainButton;
 @property (nonatomic, assign) int timeCount;
@@ -36,9 +35,8 @@
 - (void)setMoviePlayerInIndexWithURL:(NSURL *)movieURL localMovieName:(NSString *)localMovieName
 {
     self.AVPlayer = [[AVPlayerViewController alloc]init];
-    // 多分屏功能取消
+    // 取消多分屏功能
     self.AVPlayer.allowsPictureInPicturePlayback = NO;
-    // 是否显示媒体播放组件
     self.AVPlayer.showsPlaybackControls = false;
     AVPlayerItem *item;
     if (movieURL) {
@@ -56,7 +54,7 @@
     [layer setFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     // 填充模式
 //    layer.videoGravity = AVLayerVideoGravityResizeAspect; // 保持视频的纵横比
-    layer.videoGravity = AVLayerVideoGravityResize; // 不保持视频的纵横比, 填充整个屏幕
+    layer.videoGravity = AVLayerVideoGravityResize; // 填充整个屏幕
     self.AVPlayer.player = player;
     [self.view.layer addSublayer:layer];
     [self.AVPlayer.player play];
@@ -95,7 +93,7 @@
 
 // 播放完成代理
 - (void)playDidEnd:(NSNotification *)Notification{
-    // 播放完成后。设置播放进度为0 。 重新播放
+    // 重新播放
     [self.AVPlayer.player seekToTime:CMTimeMake(0, 1)];
     [self.AVPlayer.player play];
 }
@@ -103,7 +101,6 @@
 // 用户不用点击, 几秒后自动进入程序
 - (void)createLoginBtn
 {
-    NSLog(@"创建按钮");
     // 进入按钮
     _enterMainButton = [[UIButton alloc] init];
     _enterMainButton.frame = CGRectMake(SCREEN_WIDTH - 90, 50, 60, 30);
@@ -123,7 +120,7 @@
         NSString *title = [NSString stringWithFormat:@"跳过 %d", _timeCount];
         [_enterMainButton setTitle:title forState:UIControlStateNormal];
     }else{
-        [_timer invalidate]; // 停止timer
+        [_timer invalidate];
         _timer = nil;
         [self enterMainAction];
     }
@@ -147,7 +144,6 @@
     _timer1 = nil;// timer置为nil
 
 }
-// 按钮响应时间
 - (void)enterMainAction{
     NSLog(@"点击了进入应用按钮");
     ViewController *vc = [[ViewController alloc]init];
